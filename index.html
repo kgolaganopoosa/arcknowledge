@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Downloadable Resources</title>
+    <title>Downloadable Resources - Arcknowledge</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -179,19 +179,50 @@
             });
         }
 
-        // Handle Download
+        // Handle Real Download
         function handleDownload(id) {
             const resource = resources.find(r => r.id === id);
             if (!resource) return;
 
-            // Simulate file download
+            // Create a sample PDF content (for demo purposes)
+            const pdfContent = `
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R >>
+endobj
+4 0 obj
+<< /Length 44 >>
+stream
+BT
+/F1 24 Tf
+100 700 Td
+(BizPortal Company Registration Guide) Tj
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+trailer
+<< /Root 1 0 R >>
+`;
+
+            // Create Blob and trigger download
+            const blob = new Blob([pdfContent], { type: 'application/pdf' });
             const link = document.createElement('a');
-            link.href = '#';
+            link.href = URL.createObjectURL(blob);
             link.download = resource.filename;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
 
+            // Optional: Show success message
             alert(`Downloading: ${resource.name}`);
         }
 
@@ -234,17 +265,15 @@
             modal.style.display = 'block';
         }
 
-        // Close Modal
         function closeModal() {
             document.getElementById('modal').style.display = 'none';
         }
 
-        // Initialize the page
+        // Initialize
         window.onload = function() {
             renderResources();
         };
 
-        // Close modal when clicking outside the content
         window.onclick = function(event) {
             const modal = document.getElementById('modal');
             if (event.target === modal) {
