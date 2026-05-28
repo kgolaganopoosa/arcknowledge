@@ -96,10 +96,6 @@
             font-size: 28px;
             cursor: pointer;
         }
-        .counter {
-            font-size: 14px;
-            color: #666;
-        }
     </style>
 </head>
 <body>
@@ -108,7 +104,7 @@
         
         <!-- Header -->
         <header>
-            <img src="arc.png" alt="ARK Logo" class="logo">
+            <img src="arc.png" alt="ARC Logo" class="logo">
             <h1>Downloadable Resources</h1>
             <p>Professional business documents and guides</p>
         </header>
@@ -146,7 +142,7 @@
     </div>
 
     <script>
-        // Sample Resources
+        // Resources
         let resources = [
             {
                 id: 1,
@@ -169,7 +165,9 @@
                         <strong>📄</strong>
                         <div>
                             <div>${resource.name}</div>
-                            <div class="counter">Size: \( {resource.size}</span></div>
+                            <div style="font-size: 14px; color: #666;">
+                                Size: ${resource.size}
+                            </div>
                         </div>
                     </div>
                     <button class="download-btn" onclick="handleDownload(${resource.id})">Download</button>
@@ -182,9 +180,6 @@
         function handleDownload(id) {
             const resource = resources.find(r => r.id === id);
             if (!resource) return;
-
-            resource.downloads++;
-            document.getElementById(`count-${id}`).textContent = resource.downloads;
 
             // Simulate download
             const link = document.createElement('a');
