@@ -108,7 +108,7 @@
         
         <!-- Header -->
         <header>
-            <img src="ark.png" alt="ARK Logo" class="logo">
+            <img src="arc.png" alt="ARK Logo" class="logo">
             <h1>Downloadable Resources</h1>
             <p>Professional business documents and guides</p>
         </header>
@@ -152,8 +152,7 @@
                 id: 1,
                 name: "BizPortal Company Registration Guide",
                 filename: "bizportal-company-registration-guide.pdf",
-                size: "2.8 MB",
-                downloads: 1243
+                size: "159.54 KB"
             }
         ];
 
@@ -170,7 +169,7 @@
                         <strong>📄</strong>
                         <div>
                             <div>${resource.name}</div>
-                            <div class="counter">Size: \( {resource.size} • Downloads: <span id="count- \){resource.id}">${resource.downloads}</span></div>
+                            <div class="counter">Size: \( {resource.size}</span></div>
                         </div>
                     </div>
                     <button class="download-btn" onclick="handleDownload(${resource.id})">Download</button>
