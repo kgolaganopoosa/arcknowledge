@@ -145,8 +145,8 @@
     </div>
 
     <script>
-        // === UPDATE THIS WITH YOUR ACTUAL GITHUB RAW URL ===
-        const GITHUB_RAW_URL = "https://raw.githubusercontent.com/YOUR-USERNAME/YOUR-REPOSITORY/main/bizportal-company-registration-guide.pdf";
+        // GitHub Raw URL
+        const GITHUB_RAW_URL = "https://raw.githubusercontent.com/kgolaganopoosa/arcknowledge/main/bizportal-company-registration-guide.pdf";
 
         // Resources Data
         let resources = [
@@ -155,7 +155,7 @@
                 name: "BizPortal Company Registration Guide",
                 filename: "bizportal-company-registration-guide.pdf",
                 size: "159.54 KB",
-                downloadUrl: https://raw.githubusercontent.com/kgolaganopoosa/arcknowledge/main/bizportal-company-registration-guide.pdf
+                downloadUrl: GITHUB_RAW_URL
             }
         ];
 
@@ -187,14 +187,14 @@
         function handleDownload(id) {
             const resource = resources.find(r => r.id === id);
             if (!resource || !resource.downloadUrl) {
-                alert("Download link is not configured yet.");
+                alert("Download link is not available.");
                 return;
             }
 
-            // Open the raw GitHub file (forces download)
+            // Trigger download
             const link = document.createElement('a');
             link.href = resource.downloadUrl;
-            link.download = resource.filename;   // Suggests filename
+            link.download = resource.filename;
             link.target = "_blank";
             document.body.appendChild(link);
             link.click();
