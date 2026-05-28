@@ -145,13 +145,17 @@
     </div>
 
     <script>
+        // === UPDATE THIS WITH YOUR ACTUAL GITHUB RAW URL ===
+        const GITHUB_RAW_URL = "https://raw.githubusercontent.com/YOUR-USERNAME/YOUR-REPOSITORY/main/bizportal-company-registration-guide.pdf";
+
         // Resources Data
         let resources = [
             {
                 id: 1,
                 name: "BizPortal Company Registration Guide",
                 filename: "bizportal-company-registration-guide.pdf",
-                size: "159.54 KB"
+                size: "159.54 KB",
+                downloadUrl: GITHUB_RAW_URL
             }
         ];
 
@@ -179,51 +183,22 @@
             });
         }
 
-        // Handle Real Download
+        // Handle Direct Download from GitHub
         function handleDownload(id) {
             const resource = resources.find(r => r.id === id);
-            if (!resource) return;
+            if (!resource || !resource.downloadUrl) {
+                alert("Download link is not configured yet.");
+                return;
+            }
 
-            // Create a sample PDF content (for demo purposes)
-            const pdfContent = `
-%PDF-1.4
-1 0 obj
-<< /Type /Catalog /Pages 2 0 R >>
-endobj
-2 0 obj
-<< /Type /Pages /Kids [3 0 R] /Count 1 >>
-endobj
-3 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R >>
-endobj
-4 0 obj
-<< /Length 44 >>
-stream
-BT
-/F1 24 Tf
-100 700 Td
-(BizPortal Company Registration Guide) Tj
-ET
-endstream
-endobj
-5 0 obj
-<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
-endobj
-trailer
-<< /Root 1 0 R >>
-`;
-
-            // Create Blob and trigger download
-            const blob = new Blob([pdfContent], { type: 'application/pdf' });
+            // Open the raw GitHub file (forces download)
             const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = resource.filename;
+            link.href = resource.downloadUrl;
+            link.download = resource.filename;   // Suggests filename
+            link.target = "_blank";
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-
-            // Optional: Show success message
-            alert(`Downloading: ${resource.name}`);
         }
 
         // Show Modal
@@ -237,7 +212,6 @@ trailer
                 body.innerHTML = `
                     <p><strong>Last updated: May 28, 2026</strong></p>
                     <p>We respect your privacy. This website does not collect personal information unless voluntarily provided.</p>
-                    <p>Download activity is recorded anonymously to help us understand which resources are most useful.</p>
                     <p>We do not sell, share, or distribute your data to third parties.</p>
                 `;
             } 
