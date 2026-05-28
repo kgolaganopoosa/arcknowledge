@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Downloadable Resources</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            padding: 30px 0;
+            border-bottom: 2px solid #ddd;
+        }
+        .logo {
+            max-height: 80px;
+        }
+        h1 {
+            margin: 15px 0 5px 0;
+            font-size: 28px;
+        }
+        .resource {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .download-btn {
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .download-btn:hover {
+            background-color: #0056b3;
+        }
+        footer {
+            background-color: #f8f8f8;
+            padding: 30px 0;
+            margin-top: 50px;
+            border-top: 1px solid #ddd;
+            font-size: 14px;
+        }
+        .footer-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .legal-links {
+            display: flex;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .legal-links a {
+            color: #0066cc;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 1000;
+        }
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 25px;
+            width: 80%;
+            max-width: 700px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .close {
+            float: right;
+            font-size: 28px;
+            cursor: pointer;
+        }
+        .counter {
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- Header -->
+        <header>
+            <img src="ark.png" alt="ARK Logo" class="logo">
+            <h1>Downloadable Resources</h1>
+            <p>Professional business documents and guides</p>
+        </header>
+
+        <!-- Resources List -->
+        <div id="resources-list">
+            <!-- Populated by JavaScript -->
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p><strong>Downloadable Resources</strong></p>
+            <p>Providing essential business documents for South African entrepreneurs.</p>
+            
+            <div class="legal-links">
+                <a onclick="showModal('privacy')">Privacy Policy</a>
+                <a onclick="showModal('terms')">Terms of Use</a>
+                <a onclick="showModal('conditions')">Terms & Conditions</a>
+            </div>
+            
+            <p>&copy; 2026 BizPortal. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modal-title"></h2>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <script>
+        // Sample Resources
+        let resources = [
+            {
+                id: 1,
+                name: "BizPortal Company Registration Guide",
+                filename: "bizportal-company-registration-guide.pdf",
+                size: "2.8 MB",
+                downloads: 1243
+            }
+        ];
+
+        // Render Resources
+        function renderResources() {
+            const container = document.getElementById('resources-list');
+            container.innerHTML = '';
+
+            resources.forEach(resource => {
+                const div = document.createElement('div');
+                div.className = 'resource';
+                div.innerHTML = `
+                    <div class="file-info">
+                        <strong>📄</strong>
+                        <div>
+                            <div>${resource.name}</div>
+                            <div class="counter">Size: \( {resource.size} • Downloads: <span id="count- \){resource.id}">${resource.downloads}</span></div>
+                        </div>
+                    </div>
+                    <button class="download-btn" onclick="handleDownload(${resource.id})">Download</button>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // Handle Download
+        function handleDownload(id) {
+            const resource = resources.find(r => r.id === id);
+            if (!resource) return;
+
+            resource.downloads++;
+            document.getElementById(`count-${id}`).textContent = resource.downloads;
+
+            // Simulate download
+            const link = document.createElement('a');
+            link.href = '#';
+            link.download = resource.filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            alert(`Downloading: ${resource.name}`);
+        }
+
+        // Modal Functions
+        function showModal(type) {
+            const modal = document.getElementById('modal');
+            const title = document.getElementById('modal-title');
+            const body = document.getElementById('modal-body');
+
+            if (type === 'privacy') {
+                title.textContent = 'Privacy Policy';
+                body.innerHTML = `
+                    <p><strong>Last updated: May 28, 2026</strong></p>
+                    <p>We respect your privacy. This website does not collect personal information unless voluntarily provided.</p>
+                    <p>Download statistics are recorded anonymously to understand resource popularity.</p>
+                    <p>We do not share your data with third parties.</p>
+                `;
+            } 
+            else if (type === 'terms') {
+                title.textContent = 'Terms of Use';
+                body.innerHTML = `
+                    <p>By using this website, you agree to the following terms:</p>
+                    <ul>
+                        <li>Documents are for personal and business use only.</li>
+                        <li>You may not resell or redistribute the downloaded files.</li>
+                        <li>All content is provided "as is" without warranty.</li>
+                    </ul>
+                `;
+            } 
+            else if (type === 'conditions') {
+                title.textContent = 'Terms & Conditions';
+                body.innerHTML = `
+                    <p><strong>Governing Law:</strong> These terms are governed by the laws of South Africa.</p>
+                    <p><strong>Limitation of Liability:</strong> We are not liable for any damages resulting from the use of these documents.</p>
+                    <p><strong>Intellectual Property:</strong> All materials remain the property of BizPortal.</p>
+                `;
+            }
+
+            modal.style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        // Initialize
+        window.onload = function() {
+            renderResources();
+        };
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('modal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        };
+    </script>
+
+</body>
+</html>
