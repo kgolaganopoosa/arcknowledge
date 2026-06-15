@@ -1,0 +1,17 @@
+{
+  "name": "Arcknowledge Directory",
+  "short_name": "Arcknowledge",
+  "description": "A modern directory of the top 100 social media platforms.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#050505",
+  "scope": "./",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}
