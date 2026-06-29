@@ -136,6 +136,23 @@
     </div>
 
     <script>
+let deferredPrompt;
+
+// Move this listener right into the very top layer of your scripts
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    
+    // Force show it during testing by commenting out the sessionStorage check if needed
+    const installBanner = document.getElementById('installPromptBanner');
+    if (installBanner) {
+        installBanner.classList.remove('hidden');
+        installBanner.classList.add('flex');
+    }
+    if (window.lucide) lucide.createIcons();
+});
+
+        
         let platforms = [
             { id: "whatsapp", name: "WhatsApp", icon: "message-circle", url: "https://wa.me/27824598656/", favorite: false, desc: "Instant encrypted messaging & voice calling." },
             { id: "facebook", name: "Facebook", icon: "facebook", url: "https://www.facebook.com", favorite: false, desc: "Connect with friends, family and community interests." },
