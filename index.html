@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arcknowledge | Your Internet Gateway</title>
+    <title>Arcknowledge | Social Media Hub</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts: Space Grotesk for that sharp modern look -->
@@ -39,12 +39,11 @@
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .glass-card:hover {
             background: rgba(55, 65, 81, 0.6);
             border-color: rgba(147, 51, 234, 0.4);
-            transform: translateY(-2px);
         }
     </style>
 </head>
@@ -70,7 +69,7 @@
                 <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-gray-400 group-focus-within:text-purple-400 transition-colors">
                     <i data-lucide="search" class="w-5 h-5"></i>
                 </span>
-                <input type="text" id="globalSearch" oninput="handleSearch()" placeholder="Search platform directory instantly..." class="w-full pl-11 pr-4 py-2.5 bg-gray-900/60 border border-white/10 rounded-xl focus:outline-none focus:border-purple-500/80 focus:ring-2 focus:ring-purple-500/10 transition-all text-sm placeholder-gray-500 text-gray-200" />
+                <input type="text" id="globalSearch" oninput="handleSearch()" placeholder="Search ecosystem portals instantly..." class="w-full pl-11 pr-4 py-2.5 bg-gray-900/60 border border-white/10 rounded-xl focus:outline-none focus:border-purple-500/80 focus:ring-2 focus:ring-purple-500/10 transition-all text-sm placeholder-gray-500 text-gray-200" />
             </div>
         </div>
     </header>
@@ -80,19 +79,13 @@
         
         <!-- Welcome Hero Section -->
         <div class="text-center md:text-left mb-10 max-w-2xl">
-            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-white mb-2">The Complete Online Index</h1>
-            <p class="text-gray-400 text-sm md:text-base">Your unified command center for navigating the modern web ecosystem efficiently.</p>
-        </div>
-
-        <!-- Quick Category Filter Chips -->
-        <div class="flex items-center gap-2 overflow-x-auto pb-4 mb-8 scrollbar-none border-b border-white/5" id="categoryTabs">
-            <button onclick="filterCategory('all')" class="cat-tab px-4 py-2 text-xs md:text-sm font-medium rounded-xl whitespace-nowrap transition-all duration-200 bg-purple-600 text-white shadow-neon-purple" data-target="all">All Ecosystems</button>
-            <!-- Chips will dynamically append standard layout rules -->
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-white mb-2">Social Ecosystem Matrix</h1>
+            <p class="text-gray-400 text-sm md:text-base">Your streamlined launch portal. Select your favorites to dynamically pin them to the top of your workspace.</p>
         </div>
 
         <!-- Directory Bento Grid Grid Wrapper -->
         <div id="directoryGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Dynamic Category Content Cards are injected here by JS runtime -->
+            <!-- Dynamic Cards are injected here by JS runtime -->
         </div>
 
         <!-- No Results Fallback View -->
@@ -161,234 +154,138 @@
 
     <!-- ================= PLATFORM DATA ENGINE AND INTERACTIVE RUNTIME ================= -->
     <script>
-        // Directory Data Structure
-        const directoryData = [
-            {
-                id: "social-media",
-                title: "Social Platforms",
-                icon: "message-square",
-                links: [
-                    { name: "Instagram", url: "https://instagram.com" },
-                    { name: "X / Twitter", url: "https://x.com" },
-                    { name: "TikTok", url: "https://tiktok.com" },
-                    { name: "LinkedIn", url: "https://linkedin.com" },
-                    { name: "Facebook", url: "https://facebook.com" }
-                ]
-            },
-            {
-                id: "clothing-stores",
-                title: "Online Apparel & Fashion",
-                icon: "shirt",
-                links: [
-                    { name: "Superbalist", url: "https://superbalist.com" },
-                    { name: "ZARA", url: "https://zara.com" },
-                    { name: "ASOS", url: "https://asos.com" },
-                    { name: "SHEIN", url: "https://shein.com" },
-                    { name: "H&M", url: "https://hm.com" }
-                ]
-            },
-            {
-                id: "search-engines",
-                title: "Search Providers",
-                icon: "globe",
-                links: [
-                    { name: "Google", url: "https://google.com" },
-                    { name: "DuckDuckGo", url: "https://duckduckgo.com" },
-                    { name: "Bing", url: "https://bing.com" },
-                    { name: "Ecosia", url: "https://ecosia.org" }
-                ]
-            },
-            {
-                id: "banking",
-                title: "Financial Institutions",
-                icon: "wallet",
-                links: [
-                    { name: "Capitec Bank", url: "https://www.capitecbank.co.za" },
-                    { name: "FNB", url: "https://www.fnb.co.za" },
-                    { name: "Standard Bank", url: "https://www.standardbank.co.za" },
-                    { name: "Nedbank", url: "https://www.nedbank.co.za" },
-                    { name: "Absa", url: "https://www.absa.co.za" }
-                ]
-            },
-            {
-                id: "transportation",
-                title: "Mobility & Transport",
-                icon: "car",
-                links: [
-                    { name: "Uber", url: "https://www.uber.com" },
-                    { name: "Bolt", url: "https://bolt.eu" },
-                    { name: "InDrive", url: "https://indrive.com" },
-                    { name: "Gautrain", url: "https://www.gautrain.co.za" }
-                ]
-            },
-            {
-                id: "email-platforms",
-                title: "Communication & Mail",
-                icon: "mail",
-                links: [
-                    { name: "Gmail", url: "https://mail.google.com" },
-                    { name: "Outlook", url: "https://outlook.live.com" },
-                    { name: "ProtonMail", url: "https://proton.me" },
-                    { name: "Yahoo Mail", url: "https://mail.yahoo.com" }
-                ]
-            },
-            {
-                id: "malls",
-                title: "Shopping Malls",
-                icon: "building-2",
-                links: [
-                    { name: "Mall of Africa", url: "https://mallofafrica.co.za" },
-                    { name: "Menlyn Park", url: "https://www.menlynpark.co.za" },
-                    { name: "Sandton City", url: "https://sandtoncity.com" },
-                    { name: "Gateway Theatre of Shopping", url: "https://www.gatewayworld.co.za" }
-                ]
-            },
-            {
-                id: "events",
-                title: "Premium Events & Tickets",
-                icon: "ticket",
-                links: [
-                    { name: "Cochlea Lounge", url: "https://www.cochlea.co.za" },
-                    { name: "DStv Delicious Festival", url: "https://delicious.dstv.com" },
-                    { name: "Hollywoodbets Durban July", url: "https://www.hollywoodbetsdurbanjuly.co.za" },
-                    { name: "Ticketpro", url: "https://www.ticketpro.co.za" },
-                    { name: "Computicket", url: "https://computicket.com" }
-                ]
-            },
-            {
-                id: "grocery-shops",
-                title: "Groceries & Essentials",
-                icon: "shopping-bag",
-                links: [
-                    { name: "Woolworths", url: "https://www.woolworths.co.za" },
-                    { name: "Checkers Sixty60", url: "https://www.checkers.co.za" },
-                    { name: "Pick n Pay", url: "https://www.pnp.co.za" },
-                    { name: "Shoprite", url: "https://www.shoprite.co.za" }
-                ]
-            },
-            {
-                id: "filling-stations",
-                title: "Fuel & EV Infrastructure",
-                icon: "fuel",
-                links: [
-                    { name: "Engen", url: "https://www.engen.co.za" },
-                    { name: "Shell", url: "https://www.shell.co.za" },
-                    { name: "Sasol", url: "https://www.sasol.com" },
-                    { name: "BP Pulse (EV charging)", url: "https://www.bp.com" },
-                    { name: "GridCars EV Network", url: "https://www.gridcars.co.za" }
-                ]
-            }
+        // Local state initialization for the designated platforms
+        let platforms = [
+            { id: "whatsapp", name: "WhatsApp", icon: "message-circle", url: "https://wa.me", favorite: false, desc: "Instant encrypted messaging & voice calling." },
+            { id: "facebook", name: "Facebook", icon: "facebook", url: "https://www.facebook.com", favorite: false, desc: "Connect with friends, family and community interests." },
+            { id: "wechat", name: "WeChat", icon: "message-square-text", url: "https://www.wechat.com", favorite: false, desc: "All-in-one messaging, social, and digital payment portal." },
+            { id: "youtube", name: "YouTube", icon: "video", url: "https://www.youtube.com", favorite: false, desc: "Global video streaming, sharing, and content platform." },
+            { id: "instagram", name: "Instagram", icon: "instagram", url: "https://www.instagram.com", favorite: false, desc: "Visual storytelling, photo sharing, reels and media." },
+            { id: "tiktok", name: "TikTok", icon: "music", url: "https://www.tiktok.com", favorite: false, desc: "Short-form video creation and global trend discovery." }
         ];
 
-        let currentFilter = 'all';
-
-        // Initialize App UI Elements
-        function initApp() {
-            renderTabs();
+        // Core App Launcher
+        window.onload = function() {
+            loadFavorites();
             renderGrid();
-            lucide.createIcons();
+        };
+
+        // Persistent preference management
+        function saveFavorites() {
+            const favStates = platforms.reduce((acc, p) => {
+                acc[p.id] = p.favorite;
+                return acc;
+            }, {});
+            localStorage.setItem('arcknowledge_favs', JSON.stringify(favStates));
         }
 
-        // Generate Category Filter Navigation Elements Dynamically
-        function renderTabs() {
-            const container = document.getElementById('categoryTabs');
-            directoryData.forEach(cat => {
-                const btn = document.createElement('button');
-                btn.onclick = () => filterCategory(cat.id);
-                btn.className = "cat-tab px-4 py-2 text-xs md:text-sm font-medium rounded-xl border border-white/5 bg-gray-900/40 text-gray-400 hover:text-white hover:bg-gray-800/60 transition-all duration-200 whitespace-nowrap";
-                btn.setAttribute('data-target', cat.id);
-                btn.innerText = cat.title;
-                container.appendChild(btn);
-            });
+        function loadFavorites() {
+            const saved = localStorage.getItem('arcknowledge_favs');
+            if (saved) {
+                try {
+                    const favStates = JSON.parse(saved);
+                    platforms.forEach(p => {
+                        if (favStates[p.id] !== undefined) {
+                            p.favorite = favStates[p.id];
+                        }
+                    });
+                } catch (e) {
+                    console.error("Error building favorites engine data states", e);
+                }
+            }
         }
 
-        // Main Grid Presentation Engine
+        // Toggle Favorites & Rearrange Layout Instantly
+        function toggleFavorite(id) {
+            const targetItem = platforms.find(p => p.id === id);
+            if (targetItem) {
+                targetItem.favorite = !targetItem.favorite;
+                saveFavorites();
+                const searchVal = document.getElementById('globalSearch').value;
+                renderGrid(searchVal);
+            }
+        }
+
+        // Processing & Presentation Engine
         function renderGrid(searchTerm = '') {
             const grid = document.getElementById('directoryGrid');
             const noResults = document.getElementById('noResults');
             grid.innerHTML = '';
-            
-            let visibleCardsCount = 0;
 
-            directoryData.forEach(cat => {
-                // Filter matching layers
-                const matchesFilter = (currentFilter === 'all' || cat.id === currentFilter);
-                
-                // Active query text matching logic
-                const matchingLinks = cat.links.filter(link => 
-                    link.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                    cat.title.toLowerCase().includes(searchTerm.toLowerCase())
-                );
-
-                if (matchesFilter && (searchTerm === '' || matchingLinks.length > 0)) {
-                    visibleCardsCount++;
-                    
-                    const card = document.createElement('div');
-                    card.className = "glass-card p-6 rounded-2xl flex flex-col justify-between";
-                    
-                    let linksHTML = '';
-                    const targetsToRender = searchTerm === '' ? cat.links : matchingLinks;
-                    
-                    targetsToRender.forEach(link => {
-                        linksHTML += `
-                            <li>
-                                <a href="${link.url}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between group/link py-2 px-3 rounded-xl hover:bg-white/5 transition-all duration-150">
-                                    <span class="text-gray-300 group-hover/link:text-purple-400 text-sm transition-colors">${link.name}</span>
-                                    <i data-lucide="arrow-up-right" class="w-4 h-4 text-gray-600 group-hover/link:text-purple-400 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-all"></i>
-                                </a>
-                            </li>
-                        `;
-                    });
-
-                    card.innerHTML = `
-                        <div>
-                            <div class="flex items-center gap-3 mb-5">
-                                <div class="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
-                                    <i data-lucide="${cat.icon}" class="w-5 h-5"></i>
-                                </div>
-                                <h2 class="text-lg font-bold text-white tracking-wide">${cat.title}</h2>
-                            </div>
-                            <ul class="space-y-1.5">
-                                ${linksHTML}
-                            </ul>
-                        </div>
-                        <div class="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-xs text-gray-500">
-                            <span>${cat.links.length} Connected Portals</span>
-                            <span class="text-[10px] uppercase bg-gray-800/80 px-2 py-0.5 rounded border border-white/5 tracking-wider text-gray-400">Ready to Expand</span>
-                        </div>
-                    `;
-                    grid.appendChild(card);
-                }
+            // Copy array and run multi-tier conditional sorting logic
+            // Rule 1: Favorites first. Rule 2: Fall back to original array order.
+            let displayList = [...platforms].sort((a, b) => {
+                if (a.favorite && !b.favorite) return -1;
+                if (!a.favorite && b.favorite) return 1;
+                return 0; 
             });
 
-            // Toggle no results container visibility based on grid status
-            if (visibleCardsCount === 0) {
+            // Filter out elements by query string string-matching rules
+            if (searchTerm !== '') {
+                displayList = displayList.filter(p => 
+                    p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    p.desc.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+            }
+
+            // Construct and inject UI Nodes
+            displayList.forEach(p => {
+                const card = document.createElement('div');
+                card.className = "glass-card p-6 rounded-2xl flex flex-col justify-between transition-all duration-300";
+                
+                // Active configuration strings for the styling variables
+                const starColorClass = p.favorite ? "text-amber-400 fill-amber-400" : "text-gray-500 hover:text-amber-300";
+                const borderTreatment = p.favorite ? "border-purple-500/30 shadow-neon-blue" : "";
+                
+                if(p.favorite) {
+                    card.className += ` ${borderTreatment}`;
+                }
+
+                card.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
+                                    <i data-lucide="${p.icon}" class="w-5 h-5"></i>
+                                </div>
+                                <h2 class="text-lg font-bold text-white tracking-wide">${p.name}</h2>
+                            </div>
+                            <!-- Favorites Interactive Toggle Pin Component -->
+                            <button onclick="toggleFavorite('${p.id}')" class="p-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 transition-all focus:outline-none" title="Pin to top">
+                                <i data-lucide="star" class="w-4 h-4 ${starColorClass} transition-colors"></i>
+                            </button>
+                        </div>
+                        <p class="text-sm text-gray-400 leading-relaxed mb-6">${p.desc}</p>
+                    </div>
+                    
+                    <div class="pt-4 border-t border-white/5 flex items-center justify-between">
+                        <span class="text-[10px] uppercase bg-gray-800/80 px-2 py-0.5 rounded border border-white/5 tracking-wider text-gray-400">
+                            ${p.favorite ? '⚡ Favorite Pinned' : 'Directory Hub'}
+                        </span>
+                        <!-- Cross-Platform Native Protocol Fallback Launch Utility -->
+                        <a href="${p.url}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white font-medium text-xs rounded-xl shadow-neon-purple transition-all group/btn">
+                            <span>Open Hub</span>
+                            <i data-lucide="external-link" class="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 transition-transform"></i>
+                        </a>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            // Handle UI fallbacks if array evaluation yields empty state results
+            if (displayList.length === 0) {
                 noResults.classList.remove('hidden');
                 grid.classList.add('hidden');
             } else {
                 noResults.classList.add('hidden');
                 grid.classList.remove('hidden');
             }
-            
-            // Re-render structural visual instances 
+
+            // Sync structural icon layers
             lucide.createIcons();
         }
 
-        // Tab Navigation Event Engine
-        function filterCategory(catId) {
-            currentFilter = catId;
-            document.querySelectorAll('.cat-tab').forEach(btn => {
-                if(btn.getAttribute('data-target') === catId) {
-                    btn.className = "cat-tab px-4 py-2 text-xs md:text-sm font-medium rounded-xl whitespace-nowrap transition-all duration-200 bg-purple-600 text-white shadow-neon-purple";
-                } else {
-                    btn.className = "cat-tab px-4 py-2 text-xs md:text-sm font-medium rounded-xl border border-white/5 bg-gray-900/40 text-gray-400 hover:text-white hover:bg-gray-800/60 transition-all duration-200 whitespace-nowrap";
-                }
-            });
-            const searchVal = document.getElementById('globalSearch').value;
-            renderGrid(searchVal);
-        }
-
-        // Live Search Input Dispatcher
+        // Live input interface bindings
         function handleSearch() {
             const query = document.getElementById('globalSearch').value;
             renderGrid(query);
@@ -417,9 +314,6 @@
                 document.body.classList.remove('overflow-hidden');
             }
         }
-
-        // Launch Core Stack
-        window.onload = initApp;
     </script>
 </body>
 </html>
