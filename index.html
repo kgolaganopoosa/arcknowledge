@@ -279,6 +279,66 @@
                 document.body.classList.remove('overflow-hidden');
             }
         }
+
+        // Variable to store the native install event
+let deferredPrompt;
+const installBanner = document.getElementById('installPromptBanner');
+const triggerInstallBtn = document.getElementById('triggerInstallBtn');
+const closeInstallPrompt = document.getElementById('closeInstallPrompt');
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    // Prevent the native browser mini-infobar from automatically appearing
+    e.preventDefault();
+    // Stash the event configuration details so it can be triggered later
+    deferredPrompt = e;
+    
+    // Check if user has previously dismissed this setup during this session
+    if (!sessionStorage.getItem('pwa_prompt_dismissed')) {
+        // Reveal the custom glass-morphism prompt layout banner
+        installBanner.classList.remove('hidden');
+        installBanner.classList.add('flex');
+    }
+    
+    // Update newly generated icons inside banner dynamically
+    if (window.lucide) lucide.createIcons();
+});
+
+// Primary CTA Interaction Trigger
+triggerInstallBtn.addEventListener('click', async () => {
+    if (!deferredPrompt) return;
+    
+    // Show the native browser installation confirmation popup prompt
+    deferredPrompt.prompt();
+    
+    // Wait for the user to respond to the prompt prompt choice evaluation
+    const { outcome } = await deferredPrompt.userChoice;
+    console.log(`User installation setup choice result: ${outcome}`);
+    
+    // Clean up the variable allocation state space since prompt is spent
+    deferredPrompt = null;
+    
+    // Completely hide the custom action banner panel surface container
+    hideInstallBanner();
+});
+
+// Dismiss Banner Dismissal Action Link Click Event listener
+closeInstallPrompt.addEventListener('click', () => {
+    hideInstallBanner();
+    // Persist session block flag so context prompt does not aggressively re-show during navigation sequence
+    sessionStorage.setItem('pwa_prompt_dismissed', 'true');
+});
+
+function hideInstallBanner() {
+    installBanner.classList.add('hidden');
+    installBanner.classList.remove('flex');
+}
+
+// Optional: Hide interface component surface completely once PWA establishes environment setup execution
+window.addEventListener('appinstalled', (event) => {
+    console.log('Arcknowledge PWA was installed successfully into user system landscape workspace.');
+    hideInstallBanner();
+});
+
     </script>
 
     <script>
@@ -290,5 +350,25 @@
             });
         }
     </script>
+    <!-- Custom PWA Installation Prompt Banner -->
+<div id="installPromptBanner" class="fixed bottom-6 left-4 right-4 md:left-auto md:right-8 z-50 glass-panel p-5 rounded-2xl max-w-sm shadow-2xl hidden flex-col border border-purple-500/30 transition-all duration-300">
+    <div class="flex items-start gap-3 mb-4">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center p-2.5 shrink-0 shadow-neon-purple">
+            <i data-lucide="message-circle" class="text-white w-full h-full"></i>
+        </div>
+        <div>
+            <h3 class="font-bold text-white tracking-wide text-sm">Add to Home Screen</h3>
+            <p class="text-xs text-gray-400 mt-0.5 leading-relaxed">Launch the Arcknowledge Portal instantly right from your home screen workspace.</p>
+        </div>
+    </div>
+    <div class="flex items-center justify-end gap-2 text-xs font-semibold">
+        <button id="closeInstallPrompt" class="px-3 py-2 text-gray-400 hover:text-white rounded-xl hover:bg-white/5 transition-colors">Maybe Later</button>
+        <button id="triggerInstallBtn" class="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-xl shadow-neon-purple transition-all flex items-center gap-1.5">
+            <span>Install</span>
+            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+        </button>
+    </div>
+</div>
+
 </body>
 </html>
