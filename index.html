@@ -4,13 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arcknowledge | Social Media Hub</title>
-    <!-- Tailwind CSS CDN -->
+    
+    <meta name="theme-color" content="#0b0f19">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <link rel="manifest" href="manifest.json">
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Space Grotesk for that sharp modern look -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Lucide Icons Development Script -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <script>
         tailwind.config = {
@@ -49,14 +53,11 @@
 </head>
 <body class="bg-[#0b0f19] text-gray-100 min-h-screen font-sans flex flex-col justify-between selection:bg-purple-500 selection:text-white">
 
-    <!-- Ambient Background Orbs -->
     <div class="fixed top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-purple-900/10 blur-[120px] pointer-events-none z-0"></div>
     <div class="fixed bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-blue-900/10 blur-[120px] pointer-events-none z-0"></div>
 
-    <!-- Sticky Navigation / Header -->
     <header class="sticky top-0 z-40 w-full glass-panel border-b border-white/5 px-4 lg:px-8 py-4 transition-all duration-300">
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-            <!-- Brand Logo -->
             <a href="#" class="flex items-center gap-2 group">
                 <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-between p-2 shadow-neon-purple group-hover:rotate-12 transition-transform duration-300">
                     <i data-lucide="layers" class="text-white w-full h-full"></i>
@@ -64,7 +65,6 @@
                 <span class="text-xl font-bold tracking-tight bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">Arcknowledge</span>
             </a>
 
-            <!-- Global Search Bar Component -->
             <div class="relative w-full sm:max-w-md md:max-w-lg group">
                 <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-gray-400 group-focus-within:text-purple-400 transition-colors">
                     <i data-lucide="search" class="w-5 h-5"></i>
@@ -74,21 +74,14 @@
         </div>
     </header>
 
-    <!-- Main Dynamic Interface Layout -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 lg:px-8 py-8 z-10 relative">
-        
-        <!-- Welcome Hero Section -->
         <div class="text-center md:text-left mb-10 max-w-2xl">
             <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-white mb-2">Social Ecosystem Matrix</h1>
             <p class="text-gray-400 text-sm md:text-base">Your streamlined launch portal. Select your favorites to dynamically pin them to the top of your workspace.</p>
         </div>
 
-        <!-- Directory Bento Grid Grid Wrapper -->
-        <div id="directoryGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Dynamic Cards are injected here by JS runtime -->
-        </div>
+        <div id="directoryGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
 
-        <!-- No Results Fallback View -->
         <div id="noResults" class="hidden text-center py-20 bg-gray-900/20 rounded-2xl border border-dashed border-white/10 mt-6">
             <i data-lucide="search-x" class="w-12 h-12 text-gray-600 mx-auto mb-4"></i>
             <h3 class="text-lg font-medium text-gray-300">No matching platforms found</h3>
@@ -96,13 +89,11 @@
         </div>
     </main>
 
-    <!-- Standardized Legal / Brand Footer Component -->
     <footer class="w-full glass-panel border-t border-white/5 px-4 lg:px-8 py-8 mt-12 z-10 relative">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-sm text-gray-500">
             <div>
                 <p>&copy; 2026 Arcknowledge Digital Ltd. All rights reserved.</p>
             </div>
-            <!-- Footer Policy Actions -->
             <div class="flex flex-wrap justify-center gap-6 text-xs md:text-sm font-medium">
                 <button onclick="openModal('privacyModal')" class="hover:text-purple-400 transition-colors">Privacy Policy</button>
                 <button onclick="openModal('termsModal')" class="hover:text-purple-400 transition-colors">Terms of Use</button>
@@ -111,50 +102,40 @@
         </div>
     </footer>
 
-    <!-- ================= MODAL OVERLAYS FOR LEGAL POLICIES ================= -->
-    <!-- Privacy Policy Modal -->
     <div id="privacyModal" class="fixed inset-0 bg-black/60 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
         <div class="glass-panel max-w-2xl w-full max-h-[80vh] overflow-y-auto p-6 md:p-8 rounded-2xl relative shadow-2xl">
             <button onclick="closeModal('privacyModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i data-lucide="x" class="w-6 h-6"></i></button>
             <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-2"><i data-lucide="shield-check" class="text-purple-500"></i> Privacy Policy</h2>
             <div class="text-gray-400 space-y-4 text-sm leading-relaxed">
                 <p class="font-semibold text-gray-300">Effective Date: June 27, 2026</p>
-                <p>Arcknowledge operates as an index directory providing external hyperlinks to verified online networks and storefronts. We take privacy seriously and do not actively deploy user-tracking scripts or tracking cookies without explicit consent.</p>
-                <p><strong>1. Information Collection:</strong> Since this is a specialized client-side layout, we do not store personalized registration information or log search behaviors on centralized remote architecture.</p>
-                <p><strong>2. Outbound Links:</strong> Clicking outgoing destination platforms means your data profiles are subject to the processing guidelines of those specific external operations.</p>
+                <p>Arcknowledge operates as an index directory providing external hyperlinks to verified online networks and storefronts.</p>
             </div>
         </div>
     </div>
 
-    <!-- Terms of Use Modal -->
     <div id="termsModal" class="fixed inset-0 bg-black/60 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
         <div class="glass-panel max-w-2xl w-full max-h-[80vh] overflow-y-auto p-6 md:p-8 rounded-2xl relative shadow-2xl">
             <button onclick="closeModal('termsModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i data-lucide="x" class="w-6 h-6"></i></button>
             <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-2"><i data-lucide="file-text" class="text-purple-500"></i> Terms of Use</h2>
             <div class="text-gray-400 space-y-4 text-sm leading-relaxed">
                 <p class="font-semibold text-gray-300">Last Modified: June 2026</p>
-                <p>By entering and navigating this frontend environment, you explicitly accept the legal terms and structures detailed herein.</p>
-                <p><strong>Acceptable Use:</strong> Users are granted clear, revocable, and non-exclusive licenses to utilize our dashboard interface for direct access to digital utilities. Reverse engineering client assets or deploying automated scripts to crawl site directory structures without consent is explicitly barred.</p>
+                <p>By entering and navigating this frontend environment, you accept the legal terms detailed herein.</p>
             </div>
         </div>
     </div>
 
-    <!-- Terms and Conditions Modal -->
     <div id="conditionsModal" class="fixed inset-0 bg-black/60 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
         <div class="glass-panel max-w-2xl w-full max-h-[80vh] overflow-y-auto p-6 md:p-8 rounded-2xl relative shadow-2xl">
             <button onclick="closeModal('conditionsModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i data-lucide="x" class="w-6 h-6"></i></button>
             <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-2"><i data-lucide="scale" class="text-purple-500"></i> Terms & Conditions</h2>
             <div class="text-gray-400 space-y-4 text-sm leading-relaxed">
                 <p class="font-semibold text-gray-300">Last Updated: June 2026</p>
-                <p><strong>Disclaimer of Liability:</strong> Platform references and routing coordinates are provided strictly for informational layout convenience. Arcknowledge does not manage, endorse, or verify transaction safety on external storefronts, digital banking panels, or transport logistics engines.</p>
-                <p><strong>Platform Operations:</strong> We preserve complete technical authority to remove, shift, modify, or add directory nodes and operational assets dynamically without notice.</p>
+                <p><strong>Disclaimer of Liability:</strong> Platform references and routing coordinates are provided strictly for layout convenience.</p>
             </div>
         </div>
     </div>
 
-    <!-- ================= PLATFORM DATA ENGINE AND INTERACTIVE RUNTIME ================= -->
     <script>
-        // Local state initialization for the designated platforms
         let platforms = [
             { id: "whatsapp", name: "WhatsApp", icon: "message-circle", url: "https://wa.me/27824598656/", favorite: false, desc: "Instant encrypted messaging & voice calling." },
             { id: "facebook", name: "Facebook", icon: "facebook", url: "https://www.facebook.com", favorite: false, desc: "Connect with friends, family and community interests." },
@@ -164,13 +145,11 @@
             { id: "tiktok", name: "TikTok", icon: "music", url: "https://www.tiktok.com", favorite: false, desc: "Short-form video creation and global trend discovery." }
         ];
 
-        // Core App Launcher
         window.onload = function() {
             loadFavorites();
             renderGrid();
         };
 
-        // Persistent preference management
         function saveFavorites() {
             const favStates = platforms.reduce((acc, p) => {
                 acc[p.id] = p.favorite;
@@ -195,7 +174,6 @@
             }
         }
 
-        // Toggle Favorites & Rearrange Layout Instantly
         function toggleFavorite(id) {
             const targetItem = platforms.find(p => p.id === id);
             if (targetItem) {
@@ -206,21 +184,17 @@
             }
         }
 
-        // Processing & Presentation Engine
         function renderGrid(searchTerm = '') {
             const grid = document.getElementById('directoryGrid');
             const noResults = document.getElementById('noResults');
             grid.innerHTML = '';
 
-            // Copy array and run multi-tier conditional sorting logic
-            // Rule 1: Favorites first. Rule 2: Fall back to original array order.
             let displayList = [...platforms].sort((a, b) => {
                 if (a.favorite && !b.favorite) return -1;
                 if (!a.favorite && b.favorite) return 1;
                 return 0; 
             });
 
-            // Filter out elements by query string string-matching rules
             if (searchTerm !== '') {
                 displayList = displayList.filter(p => 
                     p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -228,12 +202,10 @@
                 );
             }
 
-            // Construct and inject UI Nodes
             displayList.forEach(p => {
                 const card = document.createElement('div');
                 card.className = "glass-card p-6 rounded-2xl flex flex-col justify-between transition-all duration-300";
                 
-                // Active configuration strings for the styling variables
                 const starColorClass = p.favorite ? "text-amber-400 fill-amber-400" : "text-gray-500 hover:text-amber-300";
                 const borderTreatment = p.favorite ? "border-purple-500/30 shadow-neon-blue" : "";
                 
@@ -250,7 +222,6 @@
                                 </div>
                                 <h2 class="text-lg font-bold text-white tracking-wide">${p.name}</h2>
                             </div>
-                            <!-- Favorites Interactive Toggle Pin Component -->
                             <button onclick="toggleFavorite('${p.id}')" class="p-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 transition-all focus:outline-none" title="Pin to top">
                                 <i data-lucide="star" class="w-4 h-4 ${starColorClass} transition-colors"></i>
                             </button>
@@ -262,7 +233,6 @@
                         <span class="text-[10px] uppercase bg-gray-800/80 px-2 py-0.5 rounded border border-white/5 tracking-wider text-gray-400">
                             ${p.favorite ? '⚡ Favorite Pinned' : 'Directory Hub'}
                         </span>
-                        <!-- Cross-Platform Native Protocol Fallback Launch Utility -->
                         <a href="${p.url}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white font-medium text-xs rounded-xl shadow-neon-purple transition-all group/btn">
                             <span>Open Hub</span>
                             <i data-lucide="external-link" class="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 transition-transform"></i>
@@ -272,7 +242,6 @@
                 grid.appendChild(card);
             });
 
-            // Handle UI fallbacks if array evaluation yields empty state results
             if (displayList.length === 0) {
                 noResults.classList.remove('hidden');
                 grid.classList.add('hidden');
@@ -281,17 +250,14 @@
                 grid.classList.remove('hidden');
             }
 
-            // Sync structural icon layers
             lucide.createIcons();
         }
 
-        // Live input interface bindings
         function handleSearch() {
             const query = document.getElementById('globalSearch').value;
             renderGrid(query);
         }
 
-        // Legal Modal Interactivity Triggers
         function openModal(id) {
             const target = document.getElementById(id);
             target.classList.remove('hidden');
@@ -306,13 +272,22 @@
             document.body.classList.remove('overflow-hidden');
         }
 
-        // Modal dismissal if clicking anywhere outside the main container
         window.onclick = function(event) {
             if (event.target.classList.contains('bg-black/60')) {
                 event.target.classList.add('hidden');
                 event.target.classList.remove('flex');
                 document.body.classList.remove('overflow-hidden');
             }
+        }
+    </script>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('Service Worker registered successfully.', reg.scope))
+                    .catch(err => console.error('Service Worker registration failed:', err));
+            });
         }
     </script>
 </body>
