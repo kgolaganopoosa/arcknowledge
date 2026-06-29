@@ -135,7 +135,28 @@
         </div>
     </div>
 
+    <div id="installPromptBanner" class="fixed bottom-6 left-4 right-4 md:left-auto md:right-8 z-50 glass-panel p-5 rounded-2xl max-w-sm shadow-2xl hidden flex-col border border-purple-500/30 transition-all duration-300">
+        <div class="flex items-start gap-3 mb-4">
+            <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center p-2.5 shrink-0 shadow-neon-purple">
+                <i data-lucide="message-circle" class="text-white w-full h-full"></i>
+            </div>
+            <div>
+                <h3 class="font-bold text-white tracking-wide text-sm">Add to Home Screen</h3>
+                <p class="text-xs text-gray-400 mt-0.5 leading-relaxed">Launch the Arcknowledge Portal instantly right from your home screen workspace.</p>
+            </div>
+        </div>
+        <div class="flex items-center justify-end gap-2 text-xs font-semibold">
+            <button id="closeInstallPrompt" class="px-3 py-2 text-gray-400 hover:text-white rounded-xl hover:bg-white/5 transition-colors">Maybe Later</button>
+            <button id="triggerInstallBtn" class="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-xl shadow-neon-purple transition-all flex items-center gap-1.5">
+                <span>Install</span>
+                <i data-lucide="download" class="w-3.5 h-3.5"></i>
+            </button>
+        </div>
+    </div>
+
     <script>
+        let deferredPrompt;
+        
         let platforms = [
             { id: "whatsapp", name: "WhatsApp", icon: "message-circle", url: "https://wa.me/27824598656/", favorite: false, desc: "Instant encrypted messaging & voice calling." },
             { id: "facebook", name: "Facebook", icon: "facebook", url: "https://www.facebook.com", favorite: false, desc: "Connect with friends, family and community interests." },
@@ -250,7 +271,7 @@
                 grid.classList.remove('hidden');
             }
 
-            lucide.createIcons();
+            if (window.lucide) lucide.createIcons();
         }
 
         function handleSearch() {
@@ -279,9 +300,50 @@
                 document.body.classList.remove('overflow-hidden');
             }
         }
-    </script>
 
-    <script>
+        // --- Consolidated PWA Setup Logic ---
+        const installBanner = document.getElementById('installPromptBanner');
+        const triggerInstallBtn = document.getElementById('triggerInstallBtn');
+        const closeInstallPrompt = document.getElementById('closeInstallPrompt');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            if (!sessionStorage.getItem('pwa_prompt_dismissed')) {
+                installBanner.classList.remove('hidden');
+                installBanner.classList.add('flex');
+            }
+            
+            if (window.lucide) lucide.createIcons();
+        });
+
+        triggerInstallBtn.addEventListener('click', async () => {
+            if (!deferredPrompt) return;
+            
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            console.log(`User installation setup choice result: ${outcome}`);
+            
+            deferredPrompt = null;
+            hideInstallBanner();
+        });
+
+        closeInstallPrompt.addEventListener('click', () => {
+            hideInstallBanner();
+            sessionStorage.setItem('pwa_prompt_dismissed', 'true');
+        });
+
+        function hideInstallBanner() {
+            installBanner.classList.add('hidden');
+            installBanner.classList.remove('flex');
+        }
+
+        window.addEventListener('appinstalled', (event) => {
+            console.log('Arcknowledge PWA was installed successfully.');
+            hideInstallBanner();
+        });
+
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js')
