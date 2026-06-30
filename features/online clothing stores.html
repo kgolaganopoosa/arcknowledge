@@ -1,1 +1,454 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arcknowledge | Global Fashion Hub</title>
+    
+    <meta name="theme-color" content="#0b0f19">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <link rel="manifest" href="manifest.json">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Space Grotesk', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'neon-blue': '0 0 20px rgba(59, 130, 246, 0.15)',
+                        'neon-purple': '0 0 20px rgba(147, 51, 234, 0.15)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-panel {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-card {
+            background: rgba(31, 41, 55, 0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            background: rgba(55, 65, 81, 0.6);
+            border-color: rgba(147, 51, 234, 0.4);
+        }
+    </style>
+</head>
+<body class="bg-[#0b0f19] text-gray-100 min-h-screen font-sans flex flex-col justify-between selection:bg-purple-500 selection:text-white">
+
+    <div class="fixed top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-purple-900/10 blur-[120px] pointer-events-none z-0"></div>
+    <div class="fixed bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-blue-900/10 blur-[120px] pointer-events-none z-0"></div>
+
+    <header class="sticky top-0 z-40 w-full glass-panel border-b border-white/5 px-4 lg:px-8 py-4 transition-all duration-300">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+            <a href="#" class="flex items-center gap-2 group">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-between p-2 shadow-neon-purple group-hover:rotate-12 transition-transform duration-300">
+                    <i data-lucide="layers" class="text-white w-full h-full"></i>
+                </div>
+                <span class="text-xl font-bold tracking-tight bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">Arcknowledge</span>
+            </a>
+
+            <div class="relative w-full sm:max-w-md md:max-w-lg group">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-gray-400 group-focus-within:text-purple-400 transition-colors">
+                    <i data-lucide="search" class="w-5 h-5"></i>
+                </span>
+                <input type="text" id="globalSearch" oninput="handleSearch()" placeholder="Search fashion portals instantly..." class="w-full pl-11 pr-4 py-2.5 bg-gray-900/60 border border-white/10 rounded-xl focus:outline-none focus:border-purple-500/80 focus:ring-2 focus:ring-purple-500/10 transition-all text-sm placeholder-gray-500 text-gray-200" />
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 lg:px-8 py-8 z-10 relative">
+        <div class="text-center md:text-left mb-10 max-w-2xl">
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-white mb-2">Global Fashion Matrix</h1>
+            <p class="text-gray-400 text-sm md:text-base">Your curated multi-brand directory. Explore 100+ premium online clothing stores offering reliable worldwide shipping.</p>
+        </div>
+
+        <div id="directoryGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+
+        <div id="noResults" class="hidden text-center py-20 bg-gray-900/20 rounded-2xl border border-dashed border-white/10 mt-6">
+            <i data-lucide="search-x" class="w-12 h-12 text-gray-600 mx-auto mb-4"></i>
+            <h3 class="text-lg font-medium text-gray-300">No matching platforms found</h3>
+            <p class="text-gray-500 text-sm mt-1">Try expanding your search query or clear the input filter.</p>
+        </div>
+    </main>
+
+    <footer class="w-full glass-panel border-t border-white/5 px-4 lg:px-8 py-8 mt-12 z-10 relative">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-sm text-gray-500">
+            <div>
+                <p>&copy; 2026 Arcknowledge Digital Ltd. All rights reserved.</p>
+            </div>
+            <div class="flex flex-wrap justify-center gap-6 text-xs md:text-sm font-medium">
+                <button onclick="openModal('privacyModal')" class="hover:text-purple-400 transition-colors">Privacy Policy</button>
+                <button onclick="openModal('termsModal')" class="hover:text-purple-400 transition-colors">Terms of Use</button>
+                <button onclick="openModal('conditionsModal')" class="hover:text-purple-400 transition-colors">Terms & Conditions</button>
+            </div>
+        </div>
+    </footer>
+
+    <div id="privacyModal" class="fixed inset-0 bg-black/60 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-panel max-w-2xl w-full max-h-[80vh] overflow-y-auto p-6 md:p-8 rounded-2xl relative shadow-2xl">
+            <button onclick="closeModal('privacyModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i data-lucide="x" class="w-6 h-6"></i></button>
+            <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-2"><i data-lucide="shield-check" class="text-purple-500"></i> Privacy Policy</h2>
+            <div class="text-gray-400 space-y-4 text-sm leading-relaxed">
+                <p class="font-semibold text-gray-300">Effective Date: June 27, 2026</p>
+                <p>Arcknowledge operates as an index directory providing external hyperlinks to verified online networks and storefronts.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="termsModal" class="fixed inset-0 bg-black/60 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-panel max-w-2xl w-full max-h-[80vh] overflow-y-auto p-6 md:p-8 rounded-2xl relative shadow-2xl">
+            <button onclick="closeModal('termsModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i data-lucide="x" class="w-6 h-6"></i></button>
+            <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-2"><i data-lucide="file-text" class="text-purple-500"></i> Terms of Use</h2>
+            <div class="text-gray-400 space-y-4 text-sm leading-relaxed">
+                <p class="font-semibold text-gray-300">Last Modified: June 2026</p>
+                <p>By entering and navigating this frontend environment, you accept the legal terms detailed herein.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="conditionsModal" class="fixed inset-0 bg-black/60 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-panel max-w-2xl w-full max-h-[80vh] overflow-y-auto p-6 md:p-8 rounded-2xl relative shadow-2xl">
+            <button onclick="closeModal('conditionsModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i data-lucide="x" class="w-6 h-6"></i></button>
+            <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-2"><i data-lucide="scale" class="text-purple-500"></i> Terms & Conditions</h2>
+            <div class="text-gray-400 space-y-4 text-sm leading-relaxed">
+                <p class="font-semibold text-gray-300">Last Updated: June 2026</p>
+                <p><strong>Disclaimer of Liability:</strong> Platform references and routing coordinates are provided strictly for layout convenience.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="installPromptBanner" class="fixed bottom-6 left-4 right-4 md:left-auto md:right-8 z-50 glass-panel p-5 rounded-2xl max-w-sm shadow-2xl hidden flex-col border border-purple-500/30 transition-all duration-300">
+        <div class="flex items-start gap-3 mb-4">
+            <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center p-2.5 shrink-0 shadow-neon-purple">
+                <i data-lucide="shopping-bag" class="text-white w-full h-full"></i>
+            </div>
+            <div>
+                <h3 class="font-bold text-white tracking-wide text-sm">Add to Home Screen</h3>
+                <p class="text-xs text-gray-400 mt-0.5 leading-relaxed">Launch the Arcknowledge Portal instantly right from your home screen workspace.</p>
+            </div>
+        </div>
+        <div class="flex items-center justify-end gap-2 text-xs font-semibold">
+            <button id="closeInstallPrompt" class="px-3 py-2 text-gray-400 hover:text-white rounded-xl hover:bg-white/5 transition-colors">Maybe Later</button>
+            <button id="triggerInstallBtn" class="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-xl shadow-neon-purple transition-all flex items-center gap-1.5">
+                <span>Install</span>
+                <i data-lucide="download" class="w-3.5 h-3.5"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let deferredPrompt;
+        
+        let platforms = [
+            { id: "asos", name: "ASOS", icon: "shopping-bag", url: "https://www.asos.com", favorite: false, desc: "A massive British online marketplace offering trend-led apparel and cosmetic lines across 850+ major labels." },
+            { id: "farfetch", name: "Farfetch", icon: "shirt", url: "https://www.farfetch.com", favorite: false, desc: "An expansive luxury digital gateway providing access to items from over 700 elite global boutiques and designers." },
+            { id: "netaporter", name: "Net-a-Porter", icon: "sparkles", url: "https://www.net-a-porter.com", favorite: false, desc: "The premier global destination for luxury female fashion, editorial commentary, and exceptional designer apparel." },
+            { id: "mrporter", name: "Mr Porter", icon: "shirt", url: "https://www.mrporter.com", favorite: false, desc: "The elite award-winning global retail ecosystem dedicated to curated modern men's fashion and style guidance." },
+            { id: "ssense", name: "SSENSE", icon: "store", url: "https://www.ssense.com", favorite: false, desc: "A Montreal-based platform mixing directional luxury streetwear with avant-garde designer apparel collections." },
+            { id: "zara", name: "Zara", icon: "tag", url: "https://www.zara.com", favorite: false, desc: "Fast-fashion juggernaut bringing rapidly evolving runway trends to digital collections worldwide." },
+            { id: "h_m", name: "H&M", icon: "tag", url: "https://2.hm.com", favorite: false, desc: "Swedish design champion producing sustainable everyday essentials, dynamic collaborations, and affordable lifestyle edits." },
+            { id: "shein", name: "Shein", icon: "shopping-bag", url: "https://www.shein.com", favorite: false, desc: "Ultra-fast global retail platform specializing in extensive, highly-affordable fashion lines and lifestyle items." },
+            { id: "nordstrom", name: "Nordstrom", icon: "store", url: "https://www.nordstrom.com", favorite: false, desc: "Leading upscale American department hub delivering premier apparel, footwear, and designer luxury pieces internationally." },
+            { id: "bloomingdales", name: "Bloomingdale's", icon: "store", url: "https://www.bloomingdales.com", favorite: false, desc: "Iconic American upscale retailer curating high-end contemporary labels, premium luxury wear, and dynamic accessories." },
+            { id: "revolve", name: "Revolve", icon: "sparkles", url: "https://www.revolve.com", favorite: false, desc: "An influencer-driven digital destination displaying trendy, modern apparel and luxury beauty from top emerging labels." },
+            { id: "fwd", name: "FWRD", icon: "crown", url: "https://www.fwrd.com", favorite: false, desc: "The upscale sibling to Revolve, offering highly exclusive boutique selections from elite traditional fashion houses." },
+            { id: "mytheresa", name: "Mytheresa", icon: "gem", url: "https://www.mytheresa.com", favorite: false, desc: "Munich-based boutique engine curating exceptional luxury edits spanning garments, footwear, and rare accessories." },
+            { id: "matchesfashion", name: "MatchesFashion", icon: "shirt", url: "https://www.matchesfashion.com", favorite: false, desc: "London-born enterprise channeling bespoke personal shopping experiences and luxury designer goods globally." },
+            { id: "luisaviaroma", name: "LuisaViaRoma", icon: "crown", url: "https://www.luisaviaroma.com", favorite: false, desc: "Florence-based luxury catalog delivering avant-garde apparel edits directly from top Italian and global labels." },
+            { id: "endclothing", name: "END. Clothing", icon: "footprints", url: "https://www.endclothing.com", favorite: false, desc: "Premier British endpoint for coveted sneaker drops, specialized luxury sportswear, and elevated modern menswear." },
+            { id: "urbanoutfitters", name: "Urban Outfitters", icon: "tag", url: "https://www.urbanoutfitters.com", favorite: false, desc: "A lifestyle nexus blending retro-inspired alternative street clothing, loungewear, and quirky contemporary style." },
+            { id: "anthropologie", name: "Anthropologie", icon: "sparkles", url: "https://www.anthropologie.com", favorite: false, desc: "Bohemian-chic global destination showcasing artistic apparel, soft curation lines, and creative accessories." },
+            { id: "freepeople", name: "Free People", icon: "scissors", url: "https://www.freepeople.com", favorite: false, desc: "Dedicated bohemian apparel hub crafting vintage-inspired dresses, knitwear, and swim options for free-spirited consumers." },
+            { id: "uniqlo", name: "Uniqlo", icon: "shirt", url: "https://www.uniqlo.com", favorite: false, desc: "Japanese casual master engineering highly-functional, tech-infused basics like LifeWear, Heattech, and AIRism pieces." },
+            { id: "nike", name: "Nike", icon: "footprints", url: "https://www.nike.com", favorite: false, desc: "The ultimate worldwide athletic powerhouse delivering performance athletic garments and timeless footwear styles." },
+            { id: "adidas", name: "Adidas", icon: "footprints", url: "https://www.adidas.com", favorite: false, desc: "German sportswear icon blending high-tier technical athletic solutions with culturally relevant streetwear edits." },
+            { id: "lululemon", name: "Lululemon", icon: "sparkles", url: "https://www.lululemon.com", favorite: false, desc: "Premium technical athletic apparel catalog engineered for high-performance yoga, training, running, and active leisure." },
+            { id: "gymshark", name: "Gymshark", icon: "shirt", url: "https://www.gymshark.com", favorite: false, desc: "UK-native fitness hub bringing targeted gym apparel, supportive shapewear, and active conditioning wear to athletes." },
+            { id: "alo_yoga", name: "Alo Yoga", icon: "sparkles", url: "https://www.aloyoga.com", favorite: false, desc: "Luxury, studio-ready activewear focused on creating seamless aesthetic apparel that transitions easily into street styling." },
+            { id: "pacsun", name: "PacSun", icon: "tag", url: "https://www.pacsun.com", favorite: false, desc: "California-inspired lifestyle hub offering casual graphic tees, beachwear, and top modern street sub-labels." },
+            { id: "boohoo", name: "Boohoo", icon: "shopping-bag", url: "https://www.boohoo.com", favorite: false, desc: "High-speed UK retail node dropping hundreds of trend-heavy, highly affordable street fashion items daily." },
+            { id: "pretty传递thing", name: "PrettyLittleThing", icon: "tag", url: "https://www.prettylittlething.com", favorite: false, desc: "Ultra-accessible women's fast-fashion venue offering glamorous statement apparel, nightlife fits, and beauty essentials." },
+            { id: "nastygal", name: "Nasty Gal", icon: "scissors", url: "https://www.nastygal.com", favorite: false, desc: "Born from vintage roots, this digital venue curates edgy alternative apparel and statement festival looks globally." },
+            { id: "mango", name: "Mango", icon: "shirt", url: "https://shop.mango.com", favorite: false, desc: "Mediterranean-inspired boutique providing structured, minimalist, and highly elegant seasonal clothing lines." },
+            { id: "cos", name: "COS", icon: "shirt", url: "https://www.cos.com", favorite: false, desc: "H&M group's minimalist imprint delivering architectural silhouettes, conscious materials, and timeless capsule garments." },
+            { id: "otherstories", name: "& Other Stories", icon: "sparkles", url: "https://www.stories.com", favorite: false, desc: "Design-led collective from Paris, Stockholm, and LA producing premium tailored apparel, footwear, and accessories." },
+            { id: "reformation", name: "Reformation", icon: "scissors", url: "https://www.thereformation.com", favorite: false, desc: "Sustainable apparel label designing high-end feminine dresses and eco-conscious daily pieces." },
+            { id: "everlane", name: "Everlane", icon: "shirt", url: "https://www.everlane.com", favorite: false, desc: "Radically transparent pioneer detailing exact factory supply costs while manufacturing long-lasting classic wardrobe essentials." },
+            { id: "jcrew", name: "J.Crew", icon: "tag", url: "https://www.jcrew.com", favorite: false, desc: "Classic American style hub championing bright preppy blazers, tailored denim lines, and elevated smart-casual apparel." },
+            { id: "madewell", name: "Madewell", icon: "scissors", url: "https://www.madewell.com", favorite: false, desc: "Artisan-minded apparel collective focused on premium denim manufacturing, essential tees, and effortless classic styles." },
+            { id: "abercrombie", name: "Abercrombie & Fitch", icon: "store", url: "https://www.abercrombie.com", favorite: false, desc: "Reimagined American fashion institution presenting refined everyday capsule wardrobes, structured outerwear, and premium denim." },
+            { id: "hollister", name: "Hollister", icon: "tag", url: "https://www.hollisterco.com", favorite: false, desc: "Southern California coastal atmosphere specializing in laidback denim, hoodies, and breezy beach-ready styles." },
+            { id: "american_eagle", name: "American Eagle", icon: "tag", url: "https://www.ae.com", favorite: false, desc: "Global denim and casual apparel provider celebrated for highly comfortable jeans and inclusive apparel sizes." },
+            { id: "aerie", name: "Aerie", icon: "sparkles", url: "https://www.ae.com/us/en/c/aerie", favorite: false, desc: "Body-positive apparel and lifestyle catalog rendering soft activewear, intimate intimates, and premium loungewear sets." },
+            { id: "gap", name: "Gap", icon: "shirt", url: "https://www.gap.com", favorite: false, desc: "Iconic global cornerstone for denim, signature hooded sweatshirts, and reliable modern basics for all demographics." },
+            { id: "banana_republic", name: "Banana Republic", icon: "crown", url: "https://bananarepublic.gap.com", favorite: false, desc: "Upscale lifestyle platform delivering classic tailoring, expedition-inspired utility lines, and fine luxury textiles." },
+            { id: "old_navy", name: "Old Navy", icon: "shopping-bag", url: "https://oldnavy.gap.com", favorite: false, desc: "Family-oriented bargain hub organizing essential seasonal wardrobe gear, denim, and playful daily apparel styles." },
+            { id: "express", name: "Express", icon: "tag", url: "https://www.express.com", favorite: false, desc: "Versatile destination for workplace apparel, smart evening separates, and contemporary day-to-night styling." },
+            { id: "topshop", name: "Topshop", icon: "tag", url: "https://www.asos.com/topshop/", favorite: false, desc: "Legendary British trendsetting collection, exclusively integrated into ASOS, serving directional street fashion." },
+            { id: "river_island", name: "River Island", icon: "shopping-bag", url: "https://www.riverisland.com", favorite: false, desc: "Vibrant UK favorite producing highly stylish, distinctively original evening outfits, apparel, and premium footwear." },
+            { id: "next", name: "Next", icon: "store", url: "https://www.next.co.uk", favorite: false, desc: "Massive British multichannel retailer supplying reliable family apparel, smart footwear, and global brand imports." },
+            { id: "marks_spencer", name: "Marks & Spencer", icon: "store", url: "https://www.marksandspencer.com", favorite: false, desc: "Trusted British pillar revered for premium tailored garments, innovative fabrics, and classic everyday staples." },
+            { id: "selfridges", name: "Selfridges", icon: "crown", url: "https://www.selfridges.com", favorite: false, desc: "Historic London luxury house delivering upscale multi-department luxury items, fine clothing, and designer exclusives." },
+            { id: "harrods", name: "Harrods", icon: "gem", url: "https://www.harrods.com", favorite: false, desc: "The ultimate name in global luxury retailing, cataloging prestigious haute couture and bespoke luxury apparel items." },
+            { id: "saks", name: "Saks Fifth Avenue", icon: "crown", url: "https://www.saksfifthavenue.com", favorite: false, desc: "Renowned American digital storefront offering high-tier designer collections, formalwear, and premium footwear lines." },
+            { id: "neiman_marcus", name: "Neiman Marcus", icon: "gem", url: "https://www.neimanmarcus.com", favorite: false, desc: "Texas-born luxury authority housing elite designer apparel collections and ultra-premium lifestyle fashion edits." },
+            { id: "bergdorf", name: "Bergdorf Goodman", icon: "crown", url: "https://www.bergdorfgoodman.com", favorite: false, desc: "New York's premier pinnacle of high fashion, offering couture direct from elite classic designers worldwide." },
+            { id: "macys", name: "Macy's", icon: "store", url: "https://www.macys.com", favorite: false, desc: "Great American department store providing accessible designer wear, extensive lifestyle collections, and seasonal staples." },
+            { id: "hudson_bay", name: "Hudson's Bay", icon: "store", url: "https://www.thebay.com", favorite: false, desc: "Canada's historic digital retailer delivering multi-brand international fashion, sports gear, and premium outerwear." },
+            { id: "zalando", name: "Zalando", icon: "shopping-bag", url: "https://www.zalando.com", favorite: false, desc: "European digital shopping destination gathering thousands of popular lifestyle, high-street, and activewear labels." },
+            { id: "yoox", name: "YOOX", icon: "scissors", url: "https://www.yoox.com", favorite: false, desc: "The world's leading end-of-season off-price luxury engine, offering rare archival pieces from premium designers." },
+            { id: "the_outnet", name: "The Outnet", icon: "tag", url: "https://www.theoutnet.com", favorite: false, desc: "Luxury discount destination from Net-a-Porter, serving exceptional designer runway labels at marked-down rates." },
+            { id: "gilt", name: "Gilt", icon: "tag", url: "https://www.gilt.com", favorite: false, desc: "Flash-sale digital workspace securing insider-access deals on premier designer clothing and boutique lifestyle labels." },
+            { id: "ruelala", name: "Rue La La", icon: "tag", url: "https://www.ruelala.com", favorite: false, desc: "Boutique-driven online destination hosting exclusive short-run flash discount events on premium lifestyle wear." },
+            { id: "shopbop", name: "Shopbop", icon: "sparkles", url: "https://www.shopbop.com", favorite: false, desc: "Amazon-owned curation platform supplying hand-picked high-street fashion, denim edits, and modern designer lines." },
+            { id: "eastdan", name: "East Dane", icon: "shirt", url: "https://www.shopbop.com/men", favorite: false, desc: "Thoughtfully curated menswear branch of Shopbop, highlighting modern utility, casual gear, and contemporary labels." },
+            { id: "grailed", name: "Grailed", icon: "scissors", url: "https://www.grailed.com", favorite: false, desc: "The premier peer-to-peer online marketplace focused entirely on high-end luxury menswear resale and archival streetwear." },
+            { id: "therealreal", name: "The RealReal", icon: "gem", url: "https://www.therealreal.com", favorite: false, desc: "Authenticated luxury consignment marketplace allowing users to safely trade pre-owned premier designer apparel." },
+            { id: "vestiaire", name: "Vestiaire Collective", icon: "shield-check", url: "https://www.vestiairecollective.com", favorite: false, desc: "Global collective engine dedicated to verified pre-owned luxury clothes, designer watches, and rare bags." },
+            { id: "depop", name: "Depop", icon: "tag", url: "https://www.depop.com", favorite: false, desc: "Community-led marketplace where Gen-Z culture buys and sells vintage street style, custom garments, and trends." },
+            { id: "poshmark", name: "Poshmark", icon: "shopping-bag", url: "https://www.poshmark.com", favorite: false, desc: "Social e-commerce network streamlining the second-hand sale of casual fashion, shoe lines, and boutique accessories." },
+            { id: "thredup", name: "ThredUp", icon: "scissors", url: "https://www.thredup.com", favorite: false, desc: "Massive online consignment catalog enabling streamlined sustainable thrift shopping for casual family clothing labels." },
+            { id: "oak_fort", name: "Oak + Fort", icon: "shirt", url: "https://www.oakandfort.com", favorite: false, desc: "Minimalist fashion collective distributing thoughtful, structured gender-neutral wardrobe basics in neutral color palettes." },
+            { id: "pixie_market", name: "Pixie Market", icon: "sparkles", url: "https://www.pixiemarket.com", favorite: false, desc: "Chic fashion-forward label tailoring beautiful sustainable separates, classic trenches, and sophisticated ready-to-wear." },
+            { id: "wconcept", name: "W Concept", icon: "crown", url: "https://us.wconcept.com", favorite: false, desc: "The epicenter for independent Korean designer fashion, distributing highly unique, cutting-edge contemporary garments." },
+            { id: "yesstyle", name: "YesStyle", icon: "shopping-bag", url: "https://www.yesstyle.com", favorite: false, desc: "Leading Asian retail platform curating vast selections of street apparel, casual clothing, and cosmetic brands." },
+            { id: "codibook", name: "Codibook", icon: "shirt", url: "https://codibook.net", favorite: false, desc: "Korean style-outfit engine providing curated multi-brand coordinates, K-fashion trends, and global direct delivery." },
+            { id: "chuu", name: "Chuu", icon: "sparkles", url: "https://chuu.co.kr", favorite: false, desc: "Vibrant, ultra-popular Korean sub-brand bringing youth culture, graphic fits, and playful feminine streetwear globally." },
+            { id: "stylenanda", name: "Stylenanda", icon: "tag", url: "https://en.stylenanda.com", favorite: false, desc: "Seoul-born retail titan blending highly edgy urban statement wear with high-performance makeup lines." },
+            { id: "mixxmix", name: "Mixxmix", icon: "music", url: "https://www.mixxmix.com", favorite: false, desc: "Cult-favorite Korean streetwear repository providing iconic outfits frequently highlighted by global pop performers." },
+            { id: "zaful", name: "Zaful", icon: "tag", url: "https://www.zaful.com", favorite: false, desc: "Affordable fast-fashion hub delivering edgy graphic swimsuits, casual tees, and youth street festival collections." },
+            { id: "romwe", name: "Romwe", icon: "shopping-bag", url: "https://www.romwe.com", favorite: false, desc: "E-girl and subculture lifestyle portal grouping graphic apparel, alternative garments, and affordable accessories." },
+            { id: "cotton_on", name: "Cotton On", icon: "tag", url: "https://cottonon.com", favorite: false, desc: "Australian retail giant exporting effortless everyday lifestyle essentials, swimwear, and relaxed casual lounge styles." },
+            { id: "factorie", name: "Factorie", icon: "music", url: "https://factorie.com.au", favorite: false, desc: "Youth-centric Australian label building comfortable street looks, oversized statement hoodies, and casual denim items." },
+            { id: "supre", name: "Supré", icon: "sparkles", url: "https://supre.com.au", favorite: false, desc: "Fast-paced inclusive fast-fashion house delivering trend-driven crop tops, loungewear, and denims for young women." },
+            { id: "showpo", name: "Showpo", icon: "sparkles", url: "https://www.showpo.com", favorite: false, desc: "Australian-born internet boutique offering sun-drenched cocktail dresses, matching vacation sets, and party outfits." },
+            { id: "princess_polly", name: "Princess Polly", icon: "tag", url: "https://www.princesspolly.com", favorite: false, desc: "Trend-first digital marketplace channeling viral internet aesthetics, festival garments, and seasonal footwear lines." },
+            { id: "beginning_boutique", name: "Beginning Boutique", icon: "sparkles", url: "https://www.beginningboutique.com.au", favorite: false, desc: "Australia's premier destination for high-energy weekend festival apparel, glamorous evening edits, and casual styles." },
+            { id: "meshki", name: "Meshki", icon: "crown", url: "https://www.meshki.com.au", favorite: false, desc: "Sleek, high-glamour Australian design collective constructing neutral bodycon dresses, tailoring, and eveningwear." },
+            { id: "white_fox", name: "White Fox Boutique", icon: "tag", url: "https://whitefoxboutique.com", favorite: false, desc: "Viral streetwear imprint crafting ultra-comfortable loungewear sets, oversized tracksuits, and swimwear lines." },
+            { id: "tigermist", name: "Tiger Mist", icon: "scissors", url: "https://tigermist.com", favorite: false, desc: "Bold, form-fitting apparel brand designing highly directional crop items, skirts, and statement party fashion." },
+            { id: "bardot", name: "Bardot", icon: "shirt", url: "https://www.bardot.com", favorite: false, desc: "Sophisticated Australian style label producing structured, elegant dresses, refined lace layers, and eventwear." },
+            { id: "bec_bridge", name: "Bec & Bridge", icon: "crown", url: "https://www.becandbridge.com", favorite: false, desc: "Contemporary designer outfit specializing in clean linen tailoring and exquisite silk slip occasion dresses." },
+            { id: "zimmermann", name: "Zimmermann", icon: "gem", url: "https://www.zimmermann.com", favorite: false, desc: "Ultra-luxury Australian resort wear institution celebrated for complex floral prints and intricate bohemian lace detailing." },
+            { id: "cmeo_collective", name: "C/MEO Collective", icon: "sparkles", url: "https://cmeocollective.com", favorite: false, desc: "High-end conceptual label focus on producing architectural structures, bold premium textiles, and futuristic style prints." },
+            { id: "keepsakes", name: "Keepsake The Label", icon: "sparkles", url: "https://keepsakethelabel.com.au", favorite: false, desc: "Elegant traditional evening wear brand focusing on intricate embroidery, soft romantic lines, and wedding guest options." },
+            { id: "find_labels", name: "The Fifth Label", icon: "tag", url: "https://thefifthlabel.com", favorite: false, desc: "Streamlined casual fashion portal offering highly relaxed streetwear basics, fluid denim, and soft daywear lines." },
+            { id: "stelly", name: "Stelly Clothing", icon: "shopping-bag", url: "https://stelly.com.au", favorite: false, desc: "Sydney-based boutique providing sweet floral summer outfits, casual resort wear, and accessible party styles." },
+            { id: "hello_molly", name: "Hello Molly", icon: "sparkles", url: "https://www.hellomolly.com", favorite: false, desc: "Vibrant romance-focused apparel boutique stocking hundreds of feminine dresses, beachwear, and party heels weekly." },
+            { id: "sabo_skirt", name: "Sabo Skirt", icon: "scissors", url: "https://saboskirt.com", favorite: false, desc: "Bespoke beachside aesthetic label designing limited exclusive knitwear coordinates, rompers, and delicate summer hats." },
+            { id: "petalandpup", name: "Petal & Pup", icon: "sparkles", url: "https://petalandpup.com", favorite: false, desc: "Curated online destination cataloging beautifully tailored event wear, flowing midi dresses, and effortless smart pieces." },
+            { id: "boohoo_man", name: "boohooMAN", icon: "shirt", url: "https://www.boohoooman.com", favorite: false, desc: "Dedicated standalone menswear channel supplying directional alternative street apparel, utility outerwear, and tracksuits." },
+            { id: "superdry", name: "Superdry", icon: "tag", url: "https://www.superdry.com", favorite: false, desc: "British clothing house merging distinct vintage Americana styling with intricate Japanese-inspired graphics." },
+            { id: "all_saints", name: "AllSaints", icon: "scissors", url: "https://www.allsaints.com", favorite: false, desc: "Edgy British contemporary label legendary for outstanding leather motorcycle jackets, muted palettes, and distressed knits." },
+            { id: "ted_baker", name: "Ted Baker", icon: "crown", url: "https://www.tedbaker.com", favorite: false, desc: "Quintessential luxury British brand distributing tailored menswear patterns, signature floral womenswear, and refined leather accessories." },
+            { id: "reiss", name: "Reiss", icon: "shirt", url: "https://www.reiss.com", favorite: false, desc: "Premium high-street tailors focusing on highly analytical silhouettes, clean modern lines, and workplace luxury luxury clothing." },
+            { id: "french_connection", name: "French Connection", icon: "tag", url: "https://www.frenchconnection.com", favorite: false, desc: "Forward-thinking British design engine creating distinct contemporary clothing lines, denim, and structured business casual wear." }
+        ];
+
+        window.onload = function() {
+            loadFavorites();
+            renderGrid();
+        };
+
+        function saveFavorites() {
+            const favStates = platforms.reduce((acc, p) => {
+                acc[p.id] = p.favorite;
+                return acc;
+            }, {});
+            localStorage.setItem('arcknowledge_favs', JSON.stringify(favStates));
+        }
+
+        function loadFavorites() {
+            const saved = localStorage.getItem('arcknowledge_favs');
+            if (saved) {
+                try {
+                    const favStates = JSON.parse(saved);
+                    platforms.forEach(p => {
+                        if (favStates[p.id] !== undefined) {
+                            p.favorite = favStates[p.id];
+                        }
+                    });
+                } catch (e) {
+                    console.error("Error building favorites engine data states", e);
+                }
+            }
+        }
+
+        function toggleFavorite(id) {
+            const targetItem = platforms.find(p => p.id === id);
+            if (targetItem) {
+                targetItem.favorite = !targetItem.favorite;
+                saveFavorites();
+                const searchVal = document.getElementById('globalSearch').value;
+                renderGrid(searchVal);
+            }
+        }
+
+        function renderGrid(searchTerm = '') {
+            const grid = document.getElementById('directoryGrid');
+            const noResults = document.getElementById('noResults');
+            grid.innerHTML = '';
+
+            let displayList = [...platforms].sort((a, b) => {
+                if (a.favorite && !b.favorite) return -1;
+                if (!a.favorite && b.favorite) return 1;
+                return 0; 
+            });
+
+            if (searchTerm !== '') {
+                displayList = displayList.filter(p => 
+                    p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    p.desc.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+            }
+
+            displayList.forEach(p => {
+                const card = document.createElement('div');
+                card.className = "glass-card p-6 rounded-2xl flex flex-col justify-between transition-all duration-300";
+                
+                const starColorClass = p.favorite ? "text-amber-400 fill-amber-400" : "text-gray-500 hover:text-amber-300";
+                const borderTreatment = p.favorite ? "border-purple-500/30 shadow-neon-blue" : "";
+                
+                if(p.favorite) {
+                    card.className += ` ${borderTreatment}`;
+                }
+
+                card.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
+                                    <i data-lucide="${p.icon}" class="w-5 h-5"></i>
+                                </div>
+                                <h2 class="text-lg font-bold text-white tracking-wide">${p.name}</h2>
+                            </div>
+                            <button onclick="toggleFavorite('${p.id}')" class="p-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 transition-all focus:outline-none" title="Pin to top">
+                                <i data-lucide="star" class="w-4 h-4 ${starColorClass} transition-colors"></i>
+                            </button>
+                        </div>
+                        <p class="text-sm text-gray-400 leading-relaxed mb-6">${p.desc}</p>
+                    </div>
+                    
+                    <div class="pt-4 border-t border-white/5 flex items-center justify-between">
+                        <span class="text-[10px] uppercase bg-gray-800/80 px-2 py-0.5 rounded border border-white/5 tracking-wider text-gray-400">
+                            ${p.favorite ? '⚡ Favorite Pinned' : 'Directory Hub'}
+                        </span>
+                        <a href="${p.url}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white font-medium text-xs rounded-xl shadow-neon-purple transition-all group/btn">
+                            <span>Open Hub</span>
+                            <i data-lucide="external-link" class="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 transition-transform"></i>
+                        </a>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            if (displayList.length === 0) {
+                noResults.classList.remove('hidden');
+                grid.classList.add('hidden');
+            } else {
+                noResults.classList.add('hidden');
+                grid.classList.remove('hidden');
+            }
+
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function handleSearch() {
+            const query = document.getElementById('globalSearch').value;
+            renderGrid(query);
+        }
+
+        function openModal(id) {
+            const target = document.getElementById(id);
+            target.classList.remove('hidden');
+            target.classList.add('flex');
+            document.body.classList.add('overflow-hidden');
+        }
+
+        function closeModal(id) {
+            const target = document.getElementById(id);
+            target.classList.add('hidden');
+            target.classList.remove('flex');
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        window.onclick = function(event) {
+            if (event.target.classList.contains('bg-black/60')) {
+                event.target.classList.add('hidden');
+                event.target.classList.remove('flex');
+                document.body.classList.remove('overflow-hidden');
+            }
+        }
+
+        // --- Consolidated PWA Setup Logic ---
+        const installBanner = document.getElementById('installPromptBanner');
+        const triggerInstallBtn = document.getElementById('triggerInstallBtn');
+        const closeInstallPrompt = document.getElementById('closeInstallPrompt');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            if (!sessionStorage.getItem('pwa_prompt_dismissed')) {
+                installBanner.classList.remove('hidden');
+                installBanner.classList.add('flex');
+            }
+            
+            if (window.lucide) lucide.createIcons();
+        });
+
+        triggerInstallBtn.addEventListener('click', async () => {
+            if (!deferredPrompt) return;
+            
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            console.log(`User installation setup choice result: ${outcome}`);
+            
+            deferredPrompt = null;
+            hideInstallBanner();
+        });
+
+        closeInstallPrompt.addEventListener('click', () => {
+            hideInstallBanner();
+            sessionStorage.setItem('pwa_prompt_dismissed', 'true');
+        });
+
+        function hideInstallBanner() {
+            installBanner.classList.add('hidden');
+            installBanner.classList.remove('flex');
+        }
+
+        window.addEventListener('appinstalled', (event) => {
+            console.log('Arcknowledge PWA was installed successfully.');
+            hideInstallBanner();
+        });
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('Service Worker registered successfully.', reg.scope))
+                    .catch(err => console.error('Service Worker registration failed:', err));
+            });
+        }
+    </script>
+</body>
+</html>
 
